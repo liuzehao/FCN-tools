@@ -11,18 +11,21 @@ from skimage import io
 import yaml
 
 from labelme import utils
-
+import cv2
 NAME_LABEL_MAP = {
     '_background_': 0,
-    "cat": 1,
-    "dog": 2,
+    "0": 1,
+    "1": 2,
+    "2": 3,
     # "basketball_court": 3,
     # "ground_track_field": 4,
 }
 
 LABEL_NAME_MAP = ['0: _background_',
-                  '1: cat',
-                  '2: dog']
+                  '1: 0',
+                  '2: 1',
+                  '3: 2'
+                  ]
 
 
 def main():
@@ -44,7 +47,7 @@ def main():
 
             # modify labels according to NAME_LABEL_MAP
             lbl_tmp = copy.copy(lbl)
-            
+
             for key_name in lbl_names:
                 old_lbl_val = lbl_names[key_name]
                 new_lbl_val = NAME_LABEL_MAP[key_name]
@@ -65,9 +68,9 @@ def main():
             out_dir = osp.join(osp.dirname(list[i]), out_dir)
             if not osp.exists(out_dir):
                 os.mkdir(out_dir)
-
-            PIL.Image.fromarray(img).save(osp.join(out_dir, '{}.png'.format(filename)))
-            PIL.Image.fromarray(lbl_tmp).save(osp.join(out_dir, '{}_gt.png'.format(filename)))
+            PIL.Image.fromarray(img).save(osp.join(out_dir,"img.png"))
+            # PIL.Image.fromarray(lbl).save(osp.join(out_dir, '{}_gt.png'.format(filename)))
+            cv2.imwrite(osp.join(out_dir, "label.png"),lbl)
             PIL.Image.fromarray(lbl_viz).save(osp.join(out_dir, '{}_viz.png'.format(filename)))
 
             with open(osp.join(out_dir, 'label_names.txt'), 'w') as f:
