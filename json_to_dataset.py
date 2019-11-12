@@ -44,6 +44,7 @@ def main():
 
             # modify labels according to NAME_LABEL_MAP
             lbl_tmp = copy.copy(lbl)
+            
             for key_name in lbl_names:
                 old_lbl_val = lbl_names[key_name]
                 new_lbl_val = NAME_LABEL_MAP[key_name]
@@ -66,7 +67,7 @@ def main():
                 os.mkdir(out_dir)
 
             PIL.Image.fromarray(img).save(osp.join(out_dir, '{}.png'.format(filename)))
-            PIL.Image.fromarray(lbl).save(osp.join(out_dir, '{}_gt.png'.format(filename)))
+            PIL.Image.fromarray(lbl_tmp).save(osp.join(out_dir, '{}_gt.png'.format(filename)))
             PIL.Image.fromarray(lbl_viz).save(osp.join(out_dir, '{}_viz.png'.format(filename)))
 
             with open(osp.join(out_dir, 'label_names.txt'), 'w') as f:
